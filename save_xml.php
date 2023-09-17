@@ -1,18 +1,12 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $xmlData = file_get_contents("php://input");
-    $xml = new SimpleXMLElement($xmlData);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $xmlData = file_get_contents('php://input');
     
-    $filename = "formdata_" . date("YmdHis") . ".xml"; // ファイル名を一意に生成
-    $filepath = "path/to/save/" . $filename; // ファイルの保存先パス
+    // ファイル名と保存先ディレクトリを指定
+    $fileName = 'form_data.xml';
+    $filePath = 'savedata/' . $fileName;
 
     // XMLデータをファイルに保存
-    if (file_put_contents($filepath, $xmlData) !== false) {
-        echo "フォームデータが保存されました。";
-    } else {
-        echo "フォームデータの保存に失敗しました。";
-    }
-} else {
-    echo "無効なリクエストです。";
+    file_put_contents($filePath, $xmlData);
 }
 ?>
