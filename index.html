@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>フォーム</title>
+    <title>フォームデータをXMLに保存</title>
 </head>
 <body>
     <form id="myForm">
         <label for="name">名前:</label>
-        <input type="text" id="name" name="name"><br><br>
-
+        <input type="text" id="name" name="name" required><br><br>
+        
         <label for="email">メールアドレス:</label>
-        <input type="text" id="email" name="email"><br><br>
-
-        <input type="submit" value="送信">
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <input type="button" value="送信" onclick="saveFormData()">
     </form>
+    <script>
+    function saveFormData() {
+        // フォームから入力値を取得
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
 
-    <pre id="jsonOutput"></pre>
+        // XML文書を作成
+        var xmlDoc = document.implementation.createDocument("", "FormData", null);
+        
+        // ルート要素を取得
+        var root = xmlDoc.documentElement;
 
-    <script src="script.js"></script>
+        // 名前とメールアドレスの要素を作成
+        var nameElement = xmlDoc.createElement("Name");
+        nameElement.appendChild(xmlDoc.createTextNode(name));
+
+        var emailElement = xmlDoc.createElement("Email");
+        emailElement.appendChild(xmlDoc.createTextNode(email));
+
+        // ルート要素に子要素を追加
+        root.appendChild(nameElement);
+        root.appendChild(emailElement);
+
+        // XMLを文字列に変換
+        var xmlString = new XMLSerializer().serializeToString(xmlDoc);
+
+        // サーバーにXMLデータを送信（この例ではPHPを使用）
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "save_xml.php", true);
+        xhr.setRequestHeader("Content-Type", "application/xml;charset=UTF-8");
+        xhr.send(xmlString);
+
+        // レスポンスを処理する場合はここに追加
+    }
+</script>
 </body>
 </html>
