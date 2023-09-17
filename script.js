@@ -17,9 +17,8 @@ document.getElementById("githubForm").addEventListener("submit", function (event
     .then((response) => response.json())
     .then((fileData) => {
       // 現在のファイルデータを取得
-
-      const currentData = atob(fileData.content);
-      const newData = `${currentData}\n${data}`;
+const currentData = fileData.content; // エンコードせずにデータを取得
+const newData = `${currentData}\n${data}`;
 
       // 新しいデータをファイルに書き込み
       return fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
