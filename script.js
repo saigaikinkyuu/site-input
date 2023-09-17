@@ -1,7 +1,7 @@
 document.getElementById("githubForm").addEventListener("submit", function (event) {
   event.preventDefault();
 
-  const accessToken = "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"; // 1.で取得したアクセストークン
+  const accessToken = "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"; // 1.で取得したアクセストークン
   const repoOwner = "saigaikinkyuu"; // リポジトリの所有者のGitHubユーザー名
   const repoName = "site-input"; // リポジトリ名
   const filePath = "data.xml"; // ファイルのパス
