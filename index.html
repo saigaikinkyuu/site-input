@@ -1,37 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>XML Data Form</title>
+  <title>GitHubフォーム</title>
 </head>
 <body>
-    <h1>XML Data Form</h1>
-    <form id="data-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        <button type="submit">Submit</button>
-    </form>
-
-    <h2>XML Data:</h2>
-    <pre id="xml-data"></pre>
-
-    <script>
-        const form = document.getElementById('data-form');
-        const xmlData = document.getElementById('xml-data');
-
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const formData = new FormData(form);
-            const xmlString = '<data>\n' +
-                '  <name>' + formData.get('name') + '</name>\n' +
-                '  <email>' + formData.get('email') + '</email>\n' +
-                '</data>';
-            xmlData.textContent = xmlString;
-
-            // Send the XML data to GitHub repository using API (optional).
-        });
-    </script>
+  <form id="githubForm">
+    <label for="data">データ:</label>
+    <input type="text" id="data" name="data" required>
+    <button type="submit">保存</button>
+  </form>
 </body>
+<script src="script.js"></script>
 </html>
