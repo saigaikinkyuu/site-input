@@ -1,52 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>フォームデータをXMLに保存</title>
+    <title>フォーム</title>
 </head>
 <body>
     <form id="myForm">
         <label for="name">名前:</label>
-        <input type="text" id="name" name="name" required><br><br>
-        
+        <input type="text" id="name" name="name"><br><br>
         <label for="email">メールアドレス:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        
+        <input type="text" id="email" name="email"><br><br>
         <input type="button" value="送信" onclick="saveFormData()">
     </form>
     <script>
-    function saveFormData() {
-        // フォームから入力値を取得
-        var name = document.getElementById("name").value;
-        var email = document.getElementById("email").value;
+        function saveFormData() {
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    
+    // フォームデータをXMLに変換
+    var xmlData = '<formData>' +
+                  '<name>' + name + '</name>' +
+                  '<email>' + email + '</email>' +
+                  '</formData>';
 
-        // XML文書を作成
-        var xmlDoc = document.implementation.createDocument("", "FormData", null);
-        
-        // ルート要素を取得
-        var root = xmlDoc.documentElement;
+    // XMLデータをサーバーに送信
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'save_data.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/xml');
+    xhr.send(xmlData);
 
-        // 名前とメールアドレスの要素を作成
-        var nameElement = xmlDoc.createElement("Name");
-        nameElement.appendChild(xmlDoc.createTextNode(name));
+    // フォームをクリア
+    document.getElementById('myForm').reset();
+}
 
-        var emailElement = xmlDoc.createElement("Email");
-        emailElement.appendChild(xmlDoc.createTextNode(email));
-
-        // ルート要素に子要素を追加
-        root.appendChild(nameElement);
-        root.appendChild(emailElement);
-
-        // XMLを文字列に変換
-        var xmlString = new XMLSerializer().serializeToString(xmlDoc);
-
-        // サーバーにXMLデータを送信（この例ではPHPを使用）
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "save_xml.php", true);
-        xhr.setRequestHeader("Content-Type", "application/xml;charset=UTF-8");
-        xhr.send(xmlString);
-
-        // レスポンスを処理する場合はここに追加
-    }
-</script>
+    </script>
 </body>
 </html>
+
