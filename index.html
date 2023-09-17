@@ -1,38 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>フォーム</title>
+    <title>Form to XML</title>
 </head>
 <body>
-    <form id="myForm">
-        <label for="name">名前:</label>
+    <h1>Form to XML</h1>
+    <form id="dataForm">
+        <label for="name">Name:</label>
         <input type="text" id="name" name="name"><br><br>
-        <label for="email">メールアドレス:</label>
+
+        <label for="email">Email:</label>
         <input type="text" id="email" name="email"><br><br>
-        <input type="button" value="送信" onclick="saveFormData()">
+
+        <button type="button" onclick="saveFormData()">Save to XML</button>
     </form>
+
+    <div id="xmlDisplay">
+        <!-- XML data will be displayed here -->
+    </div>
+
     <script>
         function saveFormData() {
-    var name = document.getElementById('name').value;
-    var email = document.getElementById('email').value;
-    
-    // フォームデータをXMLに変換
-    var xmlData = '<formData>' +
-                  '<name>' + name + '</name>' +
-                  '<email>' + email + '</email>' +
-                  '</formData>';
+            // フォームデータを収集してXMLに変換
+            const formData = new FormData(document.getElementById('dataForm'));
+            const xml = convertFormDataToXML(formData);
 
-    // XMLデータをサーバーに送信
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'save_data.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/xml');
-    xhr.send(xmlData);
+            // XMLを表示
+            document.getElementById('xmlDisplay').textContent = xml;
+        }
 
-    // フォームをクリア
-    document.getElementById('myForm').reset();
-}
+        function convertFormDataToXML(formData) {
+            const xml = new DOMParser().parseFromString('<data></data>', 'text/xml');
+            const dataElement = xml.documentElement;
 
+            for (const [name, value] of formData) {
+                const element = xml.createElement(name);
+                element.textContent = value;
+                dataElement.appendChild(element);
+            }
+
+            return new XMLSerializer().serializeToString(xml);
+        }
     </script>
 </body>
 </html>
-
