@@ -1,46 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Form to XML</title>
+    <meta charset="UTF-8">
+    <title>XML Data Form</title>
 </head>
 <body>
-    <h1>Form to XML</h1>
-    <form id="dataForm">
+    <h1>XML Data Form</h1>
+    <form id="data-form">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name"><br><br>
-
+        <input type="text" id="name" name="name" required><br><br>
         <label for="email">Email:</label>
-        <input type="text" id="email" name="email"><br><br>
-
-        <button type="button" onclick="saveFormData()">Save to XML</button>
+        <input type="email" id="email" name="email" required><br><br>
+        <button type="submit">Submit</button>
     </form>
 
-    <div id="xmlDisplay">
-        <!-- XML data will be displayed here -->
-    </div>
+    <h2>XML Data:</h2>
+    <pre id="xml-data"></pre>
 
     <script>
-        function saveFormData() {
-            // フォームデータを収集してXMLに変換
-            const formData = new FormData(document.getElementById('dataForm'));
-            const xml = convertFormDataToXML(formData);
+        const form = document.getElementById('data-form');
+        const xmlData = document.getElementById('xml-data');
 
-            // XMLを表示
-            document.getElementById('xmlDisplay').textContent = xml;
-        }
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const xmlString = '<data>\n' +
+                '  <name>' + formData.get('name') + '</name>\n' +
+                '  <email>' + formData.get('email') + '</email>\n' +
+                '</data>';
+            xmlData.textContent = xmlString;
 
-        function convertFormDataToXML(formData) {
-            const xml = new DOMParser().parseFromString('<data></data>', 'text/xml');
-            const dataElement = xml.documentElement;
-
-            for (const [name, value] of formData) {
-                const element = xml.createElement(name);
-                element.textContent = value;
-                dataElement.appendChild(element);
-            }
-
-            return new XMLSerializer().serializeToString(xml);
-        }
+            // Send the XML data to GitHub repository using API (optional).
+        });
     </script>
 </body>
 </html>
