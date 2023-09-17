@@ -4,7 +4,7 @@ document.getElementById("githubForm").addEventListener("submit", function (event
   const accessToken = "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"; // 1.で取得したアクセストークン
   const repoOwner = "saigaikinkyuu"; // リポジトリの所有者のGitHubユーザー名
   const repoName = "site-input"; // リポジトリ名
-  const filePath = "path/to/data.xml"; // ファイルのパス
+  const filePath = "data.xml"; // ファイルのパス
   const data = document.getElementById("data").value;
 
   // GitHub APIを使用してファイルを更新
